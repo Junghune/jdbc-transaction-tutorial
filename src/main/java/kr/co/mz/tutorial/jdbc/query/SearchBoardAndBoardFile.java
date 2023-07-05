@@ -26,9 +26,12 @@ public class SearchBoardAndBoardFile {
         try (var connection = dataSource.getConnection();
             var preparedStatement = connection.prepareStatement(QUERY)) {
             var resultSet = preparedStatement.executeQuery();
-            var boardList = new LinkedHashSet<Board>();
+            // 같은 주소의 board 를 추가하지 않도록 set 으로 생성
+            var boardSet = new LinkedHashSet<Board>();
+            // 최초 board 생성
             Board board = new Board();
             while (resultSet.next()) {
+                // boardSeq 값이 다른 데이터가 들어오면 board 를 새로 생성
                 if (resultSet.getInt(1) != board.getSeq()) {
                     board = new Board();
                 }
@@ -38,6 +41,7 @@ public class SearchBoardAndBoardFile {
                 board.setCustomerSeq(resultSet.getInt(4));
                 board.setCreatedTime(resultSet.getTimestamp(5));
                 board.setModifiedTime(resultSet.getTimestamp(6));
+                // 파일의 데이터가 있다면 board 에 추가
                 if (resultSet.getInt(7) != 0) {
                     var boardFile = new BoardFile();
                     boardFile.setSeq(resultSet.getInt(7));
@@ -46,16 +50,15 @@ public class SearchBoardAndBoardFile {
                     boardFile.setFileName(resultSet.getString(10));
                     board.addBoardFile(boardFile);
                 }
-                boardList.add(board);
+                // 같은 주소라면 보드를 다시 추가하지 않고 다른 주소라면 추가
+                boardSet.add(board);
             }
-            for (Board board3 : boardList) {
-                System.out.println("board" + board3.getSeq());
-                for (BoardFile boardFile : board3.getBoardFileSet()) {
+            for (Board selectedBoard : boardSet) {
+                System.out.println("board" + selectedBoard.getSeq());
+                for (BoardFile boardFile : selectedBoard.getBoardFileSet()) {
                     System.out.println("file" + boardFile.getSeq());
                 }
             }
-            connection.commit();
         }
     }
-
 }

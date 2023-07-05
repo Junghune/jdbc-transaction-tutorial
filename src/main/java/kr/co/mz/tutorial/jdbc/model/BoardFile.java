@@ -8,7 +8,28 @@ public class BoardFile extends AbstractModel {
     private String fileName;
     private String filePath;
     private long fileSize;
-    private String fileType;
+    private String fileExtension;
+
+    public BoardFile() {
+    }
+
+    public BoardFile(int boardSeq, String fileUuid, String fileName, String filePath, long fileSize,
+        String fileExtension) {
+        this.boardSeq = boardSeq;
+        this.fileUuid = fileUuid;
+        this.fileName = fileName;
+        this.filePath = filePath;
+        this.fileSize = fileSize;
+        this.fileExtension = fileExtension;
+    }
+
+    public BoardFile(String fileUuid, String fileName, String filePath, long fileSize, String fileExtension) {
+        this.fileUuid = fileUuid;
+        this.fileName = fileName;
+        this.filePath = filePath;
+        this.fileSize = fileSize;
+        this.fileExtension = fileExtension;
+    }
 
     public int getSeq() {
         return seq;
@@ -58,11 +79,11 @@ public class BoardFile extends AbstractModel {
         this.fileSize = fileSize;
     }
 
-    public String getFileType() {
-        return fileType;
+    public String getFileExtension() {
+        return fileExtension;
     }
 
-    public void setFileType(String fileType) {
-        this.fileType = fileType;
+    public void setFileExtension(String fileExtension) {
+        this.fileExtension = fileExtension;
     }
 }

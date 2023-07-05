@@ -9,8 +9,16 @@ public class Board extends AbstractModel {
     private String title;
     private String content;
     private int customerSeq;
-
     private final Set<BoardFile> boardFileSet = new LinkedHashSet<>();
+
+    public Board() {
+    }
+
+    public Board(String title, String content, int customerSeq) {
+        this.title = title;
+        this.content = content;
+        this.customerSeq = customerSeq;
+    }
 
     public Set<BoardFile> getBoardFileSet() {
         return boardFileSet;
@@ -50,6 +58,28 @@ public class Board extends AbstractModel {
 
     public void setCustomerSeq(int customerSeq) {
         this.customerSeq = customerSeq;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) { //같은참조
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {// null, 다른 클래스
+            return false;
+        }
+        Board other = (Board) obj;
+        if (seq != other.getSeq()) {
+            return false;
+        }
+        if (title == null) {
+            if (other.getTitle() != null) {
+                return false;
+            }
+        } else if (!title.equals(other.getTitle())) {
+            return false;
+        }
+        return true;
     }
 
 }

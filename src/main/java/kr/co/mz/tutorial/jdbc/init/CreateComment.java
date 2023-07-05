@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import kr.co.mz.tutorial.jdbc.db.HikariPoolFactory;
+import kr.co.mz.tutorial.jdbc.model.Comment;
 
 public class CreateComment {
 
@@ -23,14 +24,22 @@ public class CreateComment {
         """;
 
     public static void main(String[] args) throws SQLException, IOException {
+        System.out.println("쿼리 성공한 행수 : " +
+            createComment(
+                new Comment(8, 3, "반갑네요, 용균씨!!!! 잘부탁드려요.")
+            )
+        );
+    }
+
+    public static int createComment(Comment comment) throws SQLException, IOException {
         var dataSource = HikariPoolFactory.createHikariDataSource();
-        var connection = dataSource.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(QUERY);
-        preparedStatement.setString(1, "반갑네요, 용균씨!!!! 잘부탁드려요.");
-        preparedStatement.setInt(2, 8);
-        preparedStatement.setInt(3, 3);
-        int result = preparedStatement.executeUpdate();
-        System.out.println("쿼리 성공한 행수 : " + result);
+        try (var connection = dataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(QUERY)) {
+            preparedStatement.setString(1, comment.getContent());
+            preparedStatement.setInt(2, comment.getCustomerSeq());
+            preparedStatement.setInt(3, comment.getBoardSeq());
+            return preparedStatement.executeUpdate();
+        }
     }
 
 }
