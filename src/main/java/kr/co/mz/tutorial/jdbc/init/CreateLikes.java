@@ -9,7 +9,7 @@ import kr.co.mz.tutorial.jdbc.model.Likes;
 public class CreateLikes {
 
     private static final String QUERY = """
-        insert into board_like (board_seq,customer_seq) 
+        insert into board_likes (board_seq,customer_seq) 
         values (?,?)""";
 
     public static void main(String[] args) throws SQLException, IOException {

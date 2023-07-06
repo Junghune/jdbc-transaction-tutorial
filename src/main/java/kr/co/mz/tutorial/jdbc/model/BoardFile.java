@@ -1,5 +1,8 @@
 package kr.co.mz.tutorial.jdbc.model;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 public class BoardFile extends AbstractModel {
 
     private int seq;
@@ -13,8 +16,9 @@ public class BoardFile extends AbstractModel {
     public BoardFile() {
     }
 
-    public BoardFile(int boardSeq, String fileUuid, String fileName, String filePath, long fileSize,
+    public BoardFile(int seq, int boardSeq, String fileUuid, String fileName, String filePath, long fileSize,
         String fileExtension) {
+        this.seq = seq;
         this.boardSeq = boardSeq;
         this.fileUuid = fileUuid;
         this.fileName = fileName;
@@ -85,5 +89,13 @@ public class BoardFile extends AbstractModel {
 
     public void setFileExtension(String fileExtension) {
         this.fileExtension = fileExtension;
+    }
+
+    public static BoardFile formResultSet(ResultSet resultSet) throws SQLException {
+        return new BoardFile(
+            resultSet.getInt(1), resultSet.getInt(8), resultSet.getString(9),
+            resultSet.getString(10), resultSet.getString(11), resultSet.getLong(12),
+            resultSet.getString(13)
+        );
     }
 }

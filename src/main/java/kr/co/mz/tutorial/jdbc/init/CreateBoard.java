@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.UUID;
 import kr.co.mz.tutorial.jdbc.db.HikariPoolFactory;
+import kr.co.mz.tutorial.jdbc.file.FileService;
 import kr.co.mz.tutorial.jdbc.model.Board;
 import kr.co.mz.tutorial.jdbc.model.BoardFile;
 
@@ -19,7 +20,7 @@ public class CreateBoard {
 
     public static void main(String[] args) throws SQLException, IOException {
         var board = new Board("안녕하십니까!", "반가워요~", 8);
-        String fileDirectoryName = CreateBoardFile.BASIC_DIRECTORY + CreateBoardFile.generateFileDirectoryName();
+        String fileDirectoryName = FileService.BASIC_DIRECTORY + FileService.generateFileDirectoryName();
         board.addBoardFile(
             new BoardFile(UUID.randomUUID().toString(), "직박구리부리박기.txt",
                 fileDirectoryName + File.separator + "직박구리부리박기.txt",
